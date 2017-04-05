@@ -1,7 +1,9 @@
 import process_log_CHHuang as processlog
 
 def test_parse_data():
-    test_inputs=( "199.72.81.55 - - [01/Jan/1995:00:00:01 -0400] \"GET /history/apollo/ HTTP/1.0\" 200 6245",  
+    # test examples: (1) IP and request with protocol (2) host_name and no protocol
+    #                (3) cant parse request (warning case) (4) cant parse the line (error case)
+    test_inputs=( "199.72.81.55 - - [01/Jan/1995:00:00:01 -0400] \"GET /history/apollo/ HTTP/1.0\" 200 6245", 
                   "unicomp6.unicomp.net - - [21/Feb/1995:00:00:06 -0400] \"GET /shuttle/countdown/\" 301 -", 
                   "test.example.com - - [30/Mar/2011:15:11:22 -0400] \"/failattemptexample\" 400 0",
                   "example_of_wrong_format")
@@ -11,7 +13,7 @@ def test_parse_data():
 
     Npass= 0
     for i in range(len(test_inputs)):
-        if i==3:
+        if i==3: # test of wrong format
             iserr= False
             try: test_results= processlog.parse_data(test_inputs[i]) # should gives exception
             except: iserr= True
@@ -64,7 +66,7 @@ def test_checkNfail_feature4():
     Npass= 0
     for i in range(len(test_inputs)):
         test_dict= dict(test_inputs[i][0])
-        if i==13 or i==14:
+        if i==13 or i==14: # tests of wrong nf=4, -1
             iserr= False
             try: isblocked= processlog.checkNfail_feature4(test_dict, test_inputs[i][1], test_inputs[i][2], test_inputs[i][3])
             except: iserr= True
@@ -90,11 +92,11 @@ def test_compute_feature5(): pass
 
 def main():
     test_parse_data()
-    test_compute_feature1()
-    test_compute_feature2()
-    test_compute_feature3()
+    test_compute_feature1() # nothing to do
+    test_compute_feature2() # nothing to do
+    test_compute_feature3() # nothing to do
     test_checkNfail_feature4()
-    test_compute_feature5()
+    test_compute_feature5() # nothing to do
     print("*** Test completed. ***\n")
 
 
